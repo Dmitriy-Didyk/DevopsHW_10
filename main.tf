@@ -57,13 +57,14 @@ resource "azurerm_network_security_rule" "http_rule" {
   network_security_group_name = azurerm_network_security_group.nsg.name
 }
 
-# Создание публичного IP для Load Balancer
-resource "azurerm_public_ip" "lb_public_ip" {
-  name                = "${var.resource_prefix}-lb-public-ip"
+# Создание публичного IP для виртуальных машин
+resource "azurerm_public_ip" "vm_public_ip" {
+  count               = 2
+  name                = "${var.resource_prefix}-vm-public-ip-${count.index}"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
-  allocation_method   = "Static"
-  sku                 = "Standard"
+  allocation_method   = "Dynamic"
+  sku                 = "Basic"
 }
 
 # Создание Load Balancer с фронтенд IP и Backend Pool
@@ -85,7 +86,7 @@ resource "azurerm_lb_backend_address_pool" "backend_pool" {
   loadbalancer_id = azurerm_lb.lb.id
 }
 
-# Создание сетевых интерфейсов с использованием count = 2
+# Создание сетевых интерфейсов с публичными IP-адресами
 resource "azurerm_network_interface" "vm_nic" {
   count               = 2
   name                = "${var.resource_prefix}-nic-${count.index}"
@@ -96,6 +97,7 @@ resource "azurerm_network_interface" "vm_nic" {
     name                          = "internal"
     subnet_id                     = azurerm_subnet.subnet.id
     private_ip_address_allocation = "Dynamic"
+    public_ip_address_id          = azurerm_public_ip.vm_public_ip[count.index].id
   }
 }
 
@@ -106,7 +108,6 @@ resource "azurerm_network_interface_backend_address_pool_association" "nic_lb_as
   backend_address_pool_id  = azurerm_lb_backend_address_pool.backend_pool.id
   ip_configuration_name    = "internal"
 }
-
 
 # Создание виртуальных машин
 resource "azurerm_linux_virtual_machine" "vm" {
