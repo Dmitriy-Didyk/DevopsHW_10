@@ -144,3 +144,8 @@ resource "azurerm_subnet_network_security_group_association" "subnet_nsg_associa
   network_security_group_id = azurerm_network_security_group.nsg.id
 }
 
+resource "azurerm_network_interface_security_group_association" "nic_nsg_association" {
+  count                    = 2
+  network_interface_id     = azurerm_network_interface.vm_nic[count.index].id
+  network_security_group_id = azurerm_network_security_group.nsg.id
+}
