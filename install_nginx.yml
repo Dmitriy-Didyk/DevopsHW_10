@@ -1,0 +1,21 @@
+---
+- name: Install NGINX and deploy index.html
+  hosts: 40.115.46.23
+  become: yes
+  tasks:
+    - name: Install NGINX
+      apt:
+        name: nginx
+        state: present
+        update_cache: yes
+
+    - name: Start and enable NGINX service
+      service:
+        name: nginx
+        state: started
+        enabled: yes
+
+    - name: Create index.html with custom content
+      copy:
+        dest: /var/www/html/index.html
+        content: "Ansible the best"

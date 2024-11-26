@@ -1,0 +1,12 @@
+---
+- name: Execute command and display output
+  hosts: 40.115.46.23
+  gather_facts: no
+  tasks:
+    - name: Execute ls /etc
+      command: ls /etc
+      register: etc_output
+
+    - name: Display output
+      debug:
+        var: etc_output.stdout
