@@ -67,6 +67,14 @@ resource "azurerm_public_ip" "vm_public_ip" {
   sku                 = "Basic"
 }
 
+resource "azurerm_public_ip" "lb_public_ip" {
+  name                = "${var.resource_prefix}-lb-public-ip"
+  location            = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.rg.name
+  allocation_method   = "Static"
+  sku                 = "Standard"
+}
+
 # Создание Load Balancer с фронтенд IP и Backend Pool
 resource "azurerm_lb" "lb" {
   name                = "${var.resource_prefix}-lb"
