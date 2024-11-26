@@ -25,7 +25,7 @@ pipeline {
 ${publicIps.split('\n').collect { "${it} ansible_user=azureadmin ansible_ssh_private_key_file=/path/to/private/key" }.join('\n')}
 """
                 }
-                sh 'cat hosts' // Вывод файла hosts для проверки
+                sh 'cat hosts'
             }
         }
         stage('Configure') {
