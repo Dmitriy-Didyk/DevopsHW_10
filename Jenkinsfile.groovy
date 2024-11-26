@@ -21,11 +21,10 @@ pipeline {
                 script {
                     def publicIps = sh(script: "terraform output -json | jq -r '.vm_public_ips.value[]'", returnStdout: true).trim()
                     writeFile file: 'hosts', text: """
-[azure]
-${publicIps.split('\n').collect { "${it} ansible_user=azureadmin ansible_ssh_private_key_file=/path/to/private/key" }.join('\n')}
-"""
+                    [azure]
+                    ${publicIps.split('\n').collect { "${it} ansible_user=azureadmin ansible_ssh_pass='P@ssw0rd123!'" }.join('\n')}
+                    """
                 }
-                sh 'cat hosts'
             }
         }
         stage('Configure') {
