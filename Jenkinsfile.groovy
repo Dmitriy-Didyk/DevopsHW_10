@@ -19,11 +19,23 @@ pipeline {
         stage('Generate Ansible Inventory') {
             steps {
                 script {
-                    def publicIps = sh(script: "terraform output -json | jq -r '.vm_public_ips.value[]'", returnStdout: true).trim()
-                    writeFile file: 'hosts', text: """
-                    [azure]
-                    ${publicIps.split('\n').collect { "${it} ansible_user=azureadmin ansible_ssh_pass='P@ssw0rd123!'" }.join('\n')}
-                    """
+                    // Получение вывода Terraform
+                    def terraformOutput = sh(script: "terraform output -json", returnStdout: true).trim()
+                    
+                    // Извлечение IP-адресов
+                    def publicIps = sh(script: "echo '${terraformOutput}' | jq -r '.vm_public_ips.value[] // empty'", returnStdout: true).trim()
+                    
+                    // Проверка наличия IP-адресов
+                    if (publicIps) {
+                        // Генерация файла hosts
+                        writeFile file: 'hosts', text: """
+                        [azure]
+                        ${publicIps.split('\n').collect { "${it} ansible_user=azureadmin ansible_ssh_pass='ВашПароль'" }.join('\n')}
+                        """
+                        echo "Ansible inventory generated successfully."
+                    } else {
+                        error("No public IPs found in Terraform output.")
+                    }
                 }
             }
         }
