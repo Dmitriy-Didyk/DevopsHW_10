@@ -30,7 +30,7 @@ pipeline {
                         // Генерация файла hosts
                         writeFile file: 'hosts', text: """
                         [azure]
-                        ${publicIps.split('\n').collect { "${it} ansible_user=azureadmin ansible_ssh_pass='ВашПароль'" }.join('\n')}
+                        ${publicIps.split('\n').collect { "${it} ansible_user=azureadmin ansible_ssh_pass='P@ssw0rd123!'" }.join('\n')}
                         """
                         echo "Ansible inventory generated successfully."
                     } else {
