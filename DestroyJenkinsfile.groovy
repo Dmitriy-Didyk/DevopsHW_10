@@ -13,10 +13,10 @@ pipeline {
             }
         }
 
-        stage('Switch to Destroy Directory') {
+        stage('Switch to Deploy Environment') {
             steps {
-                dir('Destroy_Environment') {
-                    echo 'Switched to Destroy directory'
+                dir('Deploy_Environment') {
+                    echo 'Switched to Deploy directory'
                 }
             }
         }
