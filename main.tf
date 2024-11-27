@@ -126,12 +126,12 @@ resource "azurerm_linux_virtual_machine" "vm" {
   network_interface_ids = [azurerm_network_interface.vm_nic[count.index].id]
   size                = "Standard_B1s"
 
-  admin_username      = "azureuser"
+  admin_username      = "azureadmin"
   admin_password      = "P@ssw0rd123!"
   disable_password_authentication = false
 
   admin_ssh_key {
-    username   = "azureuser"
+    username   = "azureadmin"
     public_key = var.ssh_public_key
   }
 
