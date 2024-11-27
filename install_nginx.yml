@@ -3,6 +3,27 @@
   hosts: localhost
   become: no
   tasks:
+    - name: Wait for apt lock to clear
+      wait_for:
+        path: /var/lib/dpkg/lock
+        state: absent
+        timeout: 300
+      ignore_errors: yes
+
+    - name: Wait for apt lock frontend to clear
+      wait_for:
+        path: /var/lib/dpkg/lock-frontend
+        state: absent
+        timeout: 300
+      ignore_errors: yes
+
+    - name: Wait for apt cache lock to clear
+      wait_for:
+        path: /var/cache/apt/archives/lock
+        state: absent
+        timeout: 300
+      ignore_errors: yes
+
     - name: Install NGINX
       apt:
         name: nginx
