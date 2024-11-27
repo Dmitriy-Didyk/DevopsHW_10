@@ -8,15 +8,9 @@ pipeline {
     stages {
         stage('Checkout Code') {
             steps {
-                echo 'Cloning repository...'
-                git branch: 'main', url: 'https://github.com/Dmitriy-Didyk/DevopsHW_10'
-            }
-        }
-
-        stage('Switch to Deploy Environment') {
-            steps {
+                echo 'Cloning repository into Deploy_Environment directory...'
                 dir('Deploy_Environment') {
-                    echo 'Switched to Deploy directory'
+                    git branch: 'main', url: 'https://github.com/Dmitriy-Didyk/DevopsHW_10'
                 }
             }
         }
@@ -24,7 +18,7 @@ pipeline {
         stage('Initialize Terraform') {
             steps {
                 echo 'Initializing Terraform...'
-                dir('Destroy_Environment') {
+                dir('Deploy_Environment') {
                     sh '''
                     terraform init
                     '''
@@ -35,7 +29,7 @@ pipeline {
         stage('Destroy Environment') {
             steps {
                 echo 'Destroying environment with Terraform...'
-                dir('Destroy_Environment') {
+                dir('Deploy_Environment') {
                     sh '''
                     terraform destroy -auto-approve
                     '''
