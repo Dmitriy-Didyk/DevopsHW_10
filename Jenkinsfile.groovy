@@ -43,7 +43,7 @@ pipeline {
             steps {
                 echo 'Configuring environment using Ansible...'
                 sh '''
-                ansible-playbook install_nginx.yml
+                ansible-playbook -i hosts install_docker.yml
                 '''
             }
         }
