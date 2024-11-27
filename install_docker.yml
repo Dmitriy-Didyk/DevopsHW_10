@@ -1,6 +1,6 @@
 ---
 - name: Install Docker on Azure VM
-  hosts: 40.115.46.23
+  hosts: azure
   become: yes
   tasks:
     - name: Update APT package index
