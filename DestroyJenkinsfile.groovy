@@ -5,6 +5,14 @@ pipeline {
         TF_WORKSPACE = 'Deploy_Environment'
     }
 
+    stage('Switch to Destroy Directory') {
+    steps {
+        dir('Destroy_Environment') {
+            echo 'Switched to Destroy directory'
+        }
+    }
+}
+    
     stages {
         stage('Checkout Code') {
             steps {
