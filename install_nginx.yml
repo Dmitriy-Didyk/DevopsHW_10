@@ -1,6 +1,6 @@
 ---
 - name: Install NGINX and deploy index.html
-#  hosts: 40.115.46.23
+  hosts: 40.115.46.23
   become: yes
   tasks:
     - name: Install NGINX
