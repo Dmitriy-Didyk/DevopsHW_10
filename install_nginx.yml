@@ -1,6 +1,6 @@
 ---
 - name: Install NGINX and deploy index.html
-  hosts: azure
+  hosts: localhost
   become: yes
   tasks:
     - name: Install NGINX
