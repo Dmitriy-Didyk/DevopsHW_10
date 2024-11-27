@@ -5,14 +5,6 @@ pipeline {
         TF_WORKSPACE = 'Deploy_Environment'
     }
 
-    stage('Switch to Destroy Directory') {
-    steps {
-        dir('Destroy_Environment') {
-            echo 'Switched to Destroy directory'
-        }
-    }
-}
-    
     stages {
         stage('Checkout Code') {
             steps {
@@ -21,21 +13,33 @@ pipeline {
             }
         }
 
+        stage('Switch to Destroy Directory') {
+            steps {
+                dir('Destroy_Environment') {
+                    echo 'Switched to Destroy directory'
+                }
+            }
+        }
+
         stage('Initialize Terraform') {
             steps {
                 echo 'Initializing Terraform...'
-                sh '''
-                terraform init
-                '''
+                dir('Destroy_Environment') {
+                    sh '''
+                    terraform init
+                    '''
+                }
             }
         }
 
         stage('Destroy Environment') {
             steps {
                 echo 'Destroying environment with Terraform...'
-                sh '''
-                terraform destroy -auto-approve
-                '''
+                dir('Destroy_Environment') {
+                    sh '''
+                    terraform destroy -auto-approve
+                    '''
+                }
             }
         }
 
