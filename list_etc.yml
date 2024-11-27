@@ -1,6 +1,6 @@
 ---
 - name: Execute command and display output
-  hosts: azure
+  hosts: localhost
   gather_facts: no
   tasks:
     - name: Execute ls /etc
