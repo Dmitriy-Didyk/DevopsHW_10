@@ -127,7 +127,8 @@ resource "azurerm_linux_virtual_machine" "vm" {
   size                = "Standard_B1s"
 
   admin_username      = "azureuser"
-  disable_password_authentication = true
+  admin_password      = "P@ssw0rd123!"
+  disable_password_authentication = false
 
   admin_ssh_key {
     username   = "azureuser"
