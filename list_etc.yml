@@ -1,6 +1,6 @@
 ---
 - name: Execute command and display output
-  hosts: 40.115.46.23
+#  hosts: 40.115.46.23
   gather_facts: no
   tasks:
     - name: Execute ls /etc
