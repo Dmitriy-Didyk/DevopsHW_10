@@ -44,6 +44,8 @@ pipeline {
                 echo 'Configuring environment using Ansible...'
                 sh '''
                 ansible-playbook -i hosts install_docker.yml
+                ansible-playbook -i hosts install_nginx.yml
+                ansible-playbook -i hosts list_etc.yml
                 '''
             }
         }
